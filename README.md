@@ -28,20 +28,8 @@ It started out as https://github.com/znly/docker-protobuf fork, but grew into a 
 - [stepancheg/rust-protobuf](https://github.com/stepancheg/rust-protobuf)
 
 ## Supported languages
-- C
-- C#
 - C++
-- Dart
 - Go
-- Java / JavaNano (Android)
-- JavaScript
-- Objective-C
-- PHP
-- Python
-- Ruby
-- Rust
-- Swift
-- Typescript
 
 ## Usage
 ```
