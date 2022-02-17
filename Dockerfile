@@ -50,7 +50,17 @@ RUN mkdir -p ${GOPATH}/src/github.com/gogo/protobuf && \
     mkdir -p /out/usr/include/github.com/gogo/protobuf/protobuf/google/protobuf && \
     install -D $(find ./protobuf/google/protobuf -name '*.proto') -t /out/usr/include/github.com/gogo/protobuf/protobuf/google/protobuf && \
     install -D ./gogoproto/gogo.proto /out/usr/include/github.com/gogo/protobuf/gogoproto/gogo.proto
-
+    
+ARG PROTOC_GEN_VALIDATE_VERSION
+RUN mkdir -p ${GOPATH}/src/github.com/envoyproxy/protoc-gen-validate && \
+    curl -sSL https://github.com/envoyproxy/protoc-gen-validate/tarball/v${PROTOC_GEN_VALIDATE_VERSION} | tar xz --strip 1 -C ${GOPATH}/src/github.com/envoyproxy/protoc-gen-validate && \
+    cd ${GOPATH}/src/github.com/envoyproxy/protoc-gen-validate && \
+    mkdir /protoc-gen-validate-out && \
+    go build -ldflags '-w -s' -o /protoc-gen-validate-out ./... && \
+    install -Ds /protoc-gen-validate-out/protoc-gen-validate /out/usr/bin/protoc-gen-validate && \
+    mkdir -p /out/usr/include/validate && \
+    install -D ${GOPATH}/src/github.com/envoyproxy/protoc-gen-validate/validate/* /out/usr/include/validate
+    
 ARG PROTOC_GEN_LINT_VERSION
 RUN cd / && \
     curl -sSLO https://github.com/ckaznocha/protoc-gen-lint/releases/download/v${PROTOC_GEN_LINT_VERSION}/protoc-gen-lint_linux_amd64.zip && \
